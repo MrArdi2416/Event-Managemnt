@@ -4,6 +4,7 @@ import { login } from "../redux/slices/authSlice";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "../hooks/useAuth";
 
 type SignUpFormData = {
   name: string;
@@ -15,7 +16,8 @@ type SignUpFormData = {
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const { login } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -33,8 +35,9 @@ const SignUp = () => {
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("isAuthenticated", "true");
 
-    dispatch(login({ ...userData }));
-
+    // dispatch(login({ ...userData }));
+    // login({ ...userData });
+    login(userData);
     navigate("/login");
   };
 
@@ -57,7 +60,9 @@ const SignUp = () => {
                 className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#fe4e4e]"
               />
               {errors.name && (
-                <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
@@ -100,7 +105,9 @@ const SignUp = () => {
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-[#fe4e4e]"
             />
             {errors.email && (
-              <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
